@@ -1,2 +1,78 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+# Auto detect text files and perform LF normalization
+* text=auto
+
+Content/EnhanchedTPTemplateB/Demo/Characters/** filter=lfs merge=lfs -text
+
+Content/EnhanchedTPTemplateB/Demo/Maps/** filter=lfs merge=lfs -text
+
+Content/EnhanchedTPTemplateB/Demo/LevelPrototyping/** filter=lfs merge=lfs -text
+
+Content/ParagonAurora/Audio/** filter=lfs merge=lfs -text
+
+Content/ParagonAurora/FX/** filter=lfs merge=lfs -text
+
+Content/ParagonAurora/Characters/Global/** filter=lfs merge=lfs -text
+
+Content/ParagonAurora/Characters/Heroes/RetargettedAnims/** filter=lfs merge=lfs -text
+
+Content/ParagonAurora/Characters/Heroes/Aurora/Animations/** filter=lfs merge=lfs -text
+
+Content/ParagonAurora/Characters/Heroes/Aurora/Materials/** filter=lfs merge=lfs -text
+
+Content/ParagonAurora/Characters/Heroes/Aurora/Textures/** filter=lfs merge=lfs -text
+
+Content/ParagonAurora/Characters/Heroes/Aurora/Skins/FrozenHearth/Materials/** filter=lfs merge=lfs -text
+
+Content/ParagonAurora/Characters/Heroes/Aurora/Skins/FrozenHearth/Textures/** filter=lfs merge=lfs -text
+
+Content/ParagonGreystone/Audio/** filter=lfs merge=lfs -text
+
+Content/ParagonGreystone/FX/** filter=lfs merge=lfs -text
+
+Content/ParagonGreystone/Characters/Global/** filter=lfs merge=lfs -text
+
+Content/ParagonGreystone/Characters/Heroes/RetargettedAnims/** filter=lfs merge=lfs -text
+
+Content/ParagonGreystone/Characters/Heroes/Greystone/Animations/** filter=lfs merge=lfs -text
+
+Content/ParagonGreystone/Characters/Heroes/Greystone/Materials/** filter=lfs merge=lfs -text
+
+Content/ParagonGreystone/Characters/Heroes/Greystone/Textures/** filter=lfs merge=lfs -text
+
+Content/ParagonGreystone/Characters/Heroes/Greystone/Skins/Tough/Materials/** filter=lfs merge=lfs -text
+
+Content/ParagonGreystone/Characters/Heroes/Greystone/Skins/Tough/Textures/** filter=lfs merge=lfs -text
+
+Content/ParagonSparrow/Audio/** filter=lfs merge=lfs -text
+
+Content/ParagonSparrow/FX/** filter=lfs merge=lfs -text
+
+Content/ParagonSparrow/Characters/Global/** filter=lfs merge=lfs -text
+
+Content/ParagonSparrow/Characters/Heroes/RetargettedAnims/** filter=lfs merge=lfs -text
+
+Content/ParagonSparrow/Characters/Heroes/Sparrow/Animations/** filter=lfs merge=lfs -text
+
+Content/ParagonSparrow/Characters/Heroes/Sparrow/Materials/** filter=lfs merge=lfs -text
+
+Content/ParagonSparrow/Characters/Heroes/Sparrow/Textures/** filter=lfs merge=lfs -text
+
+Content/ParagonSparrow/Characters/Heroes/Sparrow/Skins/ZechinHuntress/Materials/** filter=lfs merge=lfs -text
+
+Content/ParagonSparrow/Characters/Heroes/Sparrow/Skins/ZechinHuntress/Textures/** filter=lfs merge=lfs -text
+
+Content/ParagonGideon/Audio/** filter=lfs merge=lfs -text
+
+Content/ParagonGideon/FX/** filter=lfs merge=lfs -text
+
+Content/ParagonGideon/Characters/Global/** filter=lfs merge=lfs -text
+
+Content/ParagonGideon/Characters/Heroes/RetargettedAnims/** filter=lfs merge=lfs -text
+
+Content/ParagonGideon/Characters/Heroes/Gideon/Animations/** filter=lfs merge=lfs -text
+
+Content/ParagonGideon/Characters/Heroes/Gideon/Materials/** filter=lfs merge=lfs -text
+
+Content/ParagonGideon/Characters/Heroes/Gideon/Textures/** filter=lfs merge=lfs -text
