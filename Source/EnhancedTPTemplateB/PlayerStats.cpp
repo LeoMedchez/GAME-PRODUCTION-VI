@@ -33,7 +33,7 @@ bool UPlayerStats::DecreaseHealth(float IncomingDamage)
 {
 	currentHealth -= IncomingDamage;
 
-	OnStaminaChanged.Broadcast(GetHealthAsPercent());
+	OnHealthChanged.Broadcast(GetHealthAsPercent());
 
 	return bIsDead = currentHealth <= 0.0f;
 }
@@ -47,7 +47,7 @@ void UPlayerStats::IncreaseHealth(float IncreaseByAmount)
 		currentHealth = maxHealth;
 	}
 
-	OnStaminaChanged.Broadcast(GetHealthAsPercent());
+	OnHealthChanged.Broadcast(GetHealthAsPercent());
 }
 
 bool UPlayerStats::DecreaseStamina(float DecreaseByAmount)

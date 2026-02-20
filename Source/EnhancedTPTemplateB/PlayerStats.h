@@ -42,12 +42,16 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	UFUNCTION(BlueprintCallable)
 	bool DecreaseHealth(float IncomingDamage);
 
+	UFUNCTION(BlueprintCallable)
 	void IncreaseHealth(float IncreaseByAmount);
 
+	UFUNCTION(BlueprintCallable)
 	bool DecreaseStamina(float DecreaseByAmount);
 
+	UFUNCTION(BlueprintCallable)
 	void IncreaseStamina(float IncreaseByAmount);
 
 	UPROPERTY(BlueprintAssignable, Category = "Health")
