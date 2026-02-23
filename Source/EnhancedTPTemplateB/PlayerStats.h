@@ -2,6 +2,8 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Components/AudioComponent.h"
+#include "Sound/SoundCue.h"
 #include "PlayerStats.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHealthChanged, float, NewHealthValue);
@@ -64,4 +66,28 @@ public:
 	
 	float GetStaminaAsPercent() const;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio")
+	USoundCue* LowHealthSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio")
+	USoundCue* LowStaminaSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio")
+	float LowHealthTreshold = 0.25;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio")
+	float LowStaminaTreshold = 0.5f;
+
+	void HandleBreathAudio();
+
+private:
+
+	UPROPERTY()
+	UAudioComponent* BreathAudioComp;
+
+	UFUNCTION()
+	void OnBreathAudioFinished();
+
+	bool bIsPlayingLowHealth = false;
+	bool bIsPlayingLowStamina = false;
 };

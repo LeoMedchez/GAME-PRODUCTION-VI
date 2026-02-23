@@ -5,7 +5,7 @@ UPlayerStats::UPlayerStats()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = false;
+	PrimaryComponentTick.bCanEverTick = true;
 
 	// ...
 }
@@ -16,8 +16,13 @@ void UPlayerStats::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
-	
+	BreathAudioComp = NewObject<UAudioComponent>(this);
+	BreathAudioComp->RegisterComponent();
+	BreathAudioComp->AttachToComponent(
+		GetOwner()->GetRootComponent(),
+		FAttachmentTransformRules::KeepRelativeTransform);
+
+	BreathAudioComp->OnAudioFinished.AddDynamic(this, &UPlayerStats::OnBreathAudioFinished);
 }
 
 
@@ -27,6 +32,8 @@ void UPlayerStats::TickComponent(float DeltaTime, ELevelTick TickType, FActorCom
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	// ...
+
+	HandleBreathAudio();
 }
 
 bool UPlayerStats::DecreaseHealth(float IncomingDamage)
@@ -81,3 +88,62 @@ float UPlayerStats::GetStaminaAsPercent() const
 	return currentStamina / maxStamina;
 }
 
+void UPlayerStats::HandleBreathAudio()
+{
+	if (!BreathAudioComp) return;
+
+	bool bLowHealth = GetHealthAsPercent() <= LowHealthTreshold;
+	bool bLowStamina = GetStaminaAsPercent() <= LowStaminaTreshold;
+
+	if (bLowHealth)
+	{
+		if (!bIsPlayingLowHealth && LowHealthSound)
+		{
+			BreathAudioComp->SetSound(LowHealthSound);
+			BreathAudioComp->Play();
+
+			bIsPlayingLowHealth = true;
+			bIsPlayingLowStamina = false;
+		}
+	}
+	else if (bLowStamina)
+	{
+		if (!bIsPlayingLowStamina && LowStaminaSound)
+		{
+			BreathAudioComp->SetSound(LowStaminaSound);
+			BreathAudioComp->Play();
+			bIsPlayingLowStamina = true;
+			bIsPlayingLowHealth = false;
+		}
+	}
+	else
+	{
+		if (BreathAudioComp->IsPlaying())
+		{
+			BreathAudioComp->Stop();
+		}
+		
+		bIsPlayingLowHealth = false;
+		bIsPlayingLowStamina = false;
+	}
+}
+
+void UPlayerStats::OnBreathAudioFinished()
+{
+	bool bLowHealth = GetHealthAsPercent() <= LowHealthTreshold;
+	bool bLowStamina = GetStaminaAsPercent() <= LowStaminaTreshold;
+
+	if (bLowHealth && LowHealthSound)
+	{
+		BreathAudioComp->Play();
+	}
+	else if (bLowStamina && LowStaminaSound)
+	{
+		BreathAudioComp->Play();
+	}
+	else
+	{
+		bIsPlayingLowHealth = false;
+		bIsPlayingLowStamina = false;
+	}
+}
