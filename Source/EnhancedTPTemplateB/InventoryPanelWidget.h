@@ -1,0 +1,69 @@
+#pragma once
+
+#include "CoreMinimal.h"
+#include "InventoryWidgetBase.h"
+#include "InventorySlotWidget.h"
+#include "Components/ScrollBox.h"
+#include "Components/Button.h"
+#include "EquipmentSlotWidget.h"
+#include "InventoryPanelWidget.generated.h"
+
+UCLASS()
+class ENHANCEDTPTEMPLATEB_API UInventoryPanelWidget : public UInventoryWidgetBase
+{
+	GENERATED_BODY()
+	
+public:
+
+	virtual void RefreshInventory_Implementation() override;
+
+protected:
+
+	virtual void NativeConstruct() override;
+
+	UPROPERTY(meta = (BindWidget))
+	UScrollBox* InventoryList;
+
+	UPROPERTY(meta = (BindWidget))
+	UEquipmentSlotWidget* WeaponSlot;
+
+	UPROPERTY(meta = (BindWidget))
+	UEquipmentSlotWidget* ShieldSlot;
+
+	UPROPERTY(meta = (BindWidget))
+	UButton* EquipButton;
+
+	UPROPERTY(meta = (BindWidget))
+	UButton* UnequipWeaponButton;
+
+	UPROPERTY(meta = (BindWidget))
+	UButton* UnequipShieldButton;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Inventory")
+	TSubclassOf<UInventorySlotWidget> InventorySlotClass;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Inventory")
+	UInventorySlotWidget* SelectedSlot;
+
+private:
+
+	void RefreshList();
+	
+	void RefreshEquipmentPanel();
+
+	void UpdateEquipButton();
+
+	UFUNCTION()
+	void OnEquipButtonClicked();
+
+	UFUNCTION()
+	void OnUnequipWeaponButtonClicked();
+
+	UFUNCTION()
+	void OnUnequipShieldButtonClicked();
+
+public:
+
+	UFUNCTION()
+	void OnSlotSelected(UInventorySlotWidget* SelectedSlotWidget);
+};
