@@ -73,6 +73,12 @@ public:
 	USoundCue* LowStaminaSound;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio")
+	USoundCue* HurtSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio")
+	USoundCue* DeathSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio")
 	float LowHealthTreshold = 0.25;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio")
@@ -84,6 +90,9 @@ private:
 
 	UPROPERTY()
 	UAudioComponent* BreathAudioComp;
+
+	UPROPERTY()
+	UAudioComponent* HurtAudioComp;
 
 	UFUNCTION()
 	void OnBreathAudioFinished();

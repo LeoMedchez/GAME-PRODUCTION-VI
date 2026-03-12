@@ -22,6 +22,12 @@ void UPlayerStats::BeginPlay()
 		GetOwner()->GetRootComponent(),
 		FAttachmentTransformRules::KeepRelativeTransform);
 
+	HurtAudioComp = NewObject<UAudioComponent>(this);
+	HurtAudioComp->RegisterComponent();
+	HurtAudioComp->AttachToComponent(
+		GetOwner()->GetRootComponent(),
+		FAttachmentTransformRules::KeepRelativeTransform);
+
 	BreathAudioComp->OnAudioFinished.AddDynamic(this, &UPlayerStats::OnBreathAudioFinished);
 }
 
@@ -42,7 +48,32 @@ bool UPlayerStats::DecreaseHealth(float IncomingDamage)
 
 	OnHealthChanged.Broadcast(GetHealthAsPercent());
 
-	return bIsDead = currentHealth <= 0.0f;
+	if (HurtAudioComp && HurtSound)
+	{
+		HurtAudioComp->SetSound(HurtSound);
+		HurtAudioComp->Play();
+	}
+
+	bIsDead = currentHealth <= 0.0f;
+
+	if (bIsDead)
+	{
+		if (BreathAudioComp && BreathAudioComp->IsPlaying())
+		{
+			BreathAudioComp->Stop();
+		}
+
+		if (HurtAudioComp && DeathSound)
+		{
+			HurtAudioComp->SetSound(DeathSound);
+			HurtAudioComp->Play();
+		}
+
+		bIsPlayingLowHealth = false;
+		bIsPlayingLowStamina = false;
+	}
+
+	return bIsDead;
 }
 
 void UPlayerStats::IncreaseHealth(float IncreaseByAmount)
@@ -91,6 +122,19 @@ float UPlayerStats::GetStaminaAsPercent() const
 void UPlayerStats::HandleBreathAudio()
 {
 	if (!BreathAudioComp) return;
+
+	if (bIsDead)
+	{
+		if (BreathAudioComp->IsPlaying())
+		{
+			BreathAudioComp->Stop();
+		}
+
+		bIsPlayingLowHealth = false;
+		bIsPlayingLowStamina = false;
+		
+		return;
+	}
 
 	bool bLowHealth = GetHealthAsPercent() <= LowHealthTreshold;
 	bool bLowStamina = GetStaminaAsPercent() <= LowStaminaTreshold;
