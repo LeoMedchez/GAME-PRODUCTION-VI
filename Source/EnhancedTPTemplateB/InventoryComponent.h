@@ -4,7 +4,6 @@
 #include "Engine/Texture2D.h"
 #include "Animation/AnimMontage.h"
 #include "Animation/AnimInstance.h"
-#include "Engine/StaticMesh.h"
 #include "InventoryComponent.generated.h"
 
 UENUM(BlueprintType)
@@ -37,7 +36,7 @@ struct FItemData
 	UTexture2D* ItemIcon;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	UStaticMesh* ItemMesh;
+	TSubclassOf<AActor> WeaponClass;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	EItemType ItemType;
