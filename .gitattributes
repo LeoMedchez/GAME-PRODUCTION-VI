@@ -13,8 +13,6 @@ Content/ParagonAurora/FX/** filter=lfs merge=lfs -text
 
 Content/ParagonAurora/Characters/Global/** filter=lfs merge=lfs -text
 
-Content/ParagonAurora/Characters/Heroes/RetargettedAnims/** filter=lfs merge=lfs -text
-
 Content/ParagonAurora/Characters/Heroes/Aurora/Animations/** filter=lfs merge=lfs -text
 
 Content/ParagonAurora/Characters/Heroes/Aurora/Materials/** filter=lfs merge=lfs -text
@@ -30,8 +28,6 @@ Content/ParagonGreystone/Audio/** filter=lfs merge=lfs -text
 Content/ParagonGreystone/FX/** filter=lfs merge=lfs -text
 
 Content/ParagonGreystone/Characters/Global/** filter=lfs merge=lfs -text
-
-Content/ParagonGreystone/Characters/Heroes/RetargettedAnims/** filter=lfs merge=lfs -text
 
 Content/ParagonGreystone/Characters/Heroes/Greystone/Animations/** filter=lfs merge=lfs -text
 
@@ -66,8 +62,6 @@ Content/ParagonGideon/Audio/** filter=lfs merge=lfs -text
 Content/ParagonGideon/FX/** filter=lfs merge=lfs -text
 
 Content/ParagonGideon/Characters/Global/** filter=lfs merge=lfs -text
-
-Content/ParagonGideon/Characters/Heroes/RetargettedAnims/** filter=lfs merge=lfs -text
 
 Content/ParagonGideon/Characters/Heroes/Gideon/Animations/** filter=lfs merge=lfs -text
 
