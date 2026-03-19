@@ -9,7 +9,7 @@ public class EnhancedTPTemplateBEditorTarget : TargetRules
 	{
 		Type = TargetType.Editor;
 		DefaultBuildSettings = BuildSettingsVersion.V5;
-
+		IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_6;
 		ExtraModuleNames.AddRange( new string[] { "EnhancedTPTemplateB" } );
 	}
 }

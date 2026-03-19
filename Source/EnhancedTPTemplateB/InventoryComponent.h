@@ -24,52 +24,52 @@ struct FItemData
 	GENERATED_BODY()
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	FString ItemName;
+	FString ItemName = "";
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	float ItemDamage;
+	float ItemDamage = 0.0f;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	int32 ItemQuantity;
+	int32 ItemQuantity = 0;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	UTexture2D* ItemIcon;
+	UTexture2D* ItemIcon = nullptr;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	TSubclassOf<AActor> WeaponClass;
+	TSubclassOf<AActor> WeaponClass = nullptr;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	EItemType ItemType;
+	EItemType ItemType = EItemType::Misc;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	bool bCanUseWithShield;
+	bool bCanUseWithShield = false;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	bool bIsEquipped = false;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Weapon")
-	TSubclassOf<UAnimInstance> AttackAnimClass;
+	TSubclassOf<UAnimInstance> AttackAnimClass = nullptr;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Weapon")
-	UAnimMontage* AttackAnimA;
+	UAnimMontage* AttackAnimA = nullptr;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Weapon")
-	UAnimMontage* AttackAnimB;
+	UAnimMontage* AttackAnimB = nullptr;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Weapon")
-	UAnimMontage* AttackAnimC;
+	UAnimMontage* AttackAnimC = nullptr;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Weapon")
-	UAnimMontage* WeaponDrawAnim;
+	UAnimMontage* WeaponDrawAnim = nullptr;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Weapon")
-	UAnimMontage* WeaponSheatheAnim;
+	UAnimMontage* WeaponSheatheAnim = nullptr;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Weapon")
-	FName SheathSocket;
+	FName SheathSocket = NAME_None;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Weapon")
-	FName EquippedSocket;
+	FName EquippedSocket = NAME_None;
 };
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnInventoryChanged);
