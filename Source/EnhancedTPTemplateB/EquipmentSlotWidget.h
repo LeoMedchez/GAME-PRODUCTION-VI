@@ -28,6 +28,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Equipment", meta = (ExposeOnSpawn = "true"))
 	FText SlotLabel = FText::FromString("Slot");
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Equipment")
+	UTexture2D* EmptySlotTexture;
 
 protected:
 

@@ -8,6 +8,7 @@ void UEquipmentSlotWidget::NativeConstruct()
 	{
 		SlotNameText->SetText(SlotLabel);
 	}
+	ClearSlot();
 }
 
 void UEquipmentSlotWidget::SetEquipmentSlot(FItemData InItemData, EItemType InSlotType)
@@ -27,6 +28,6 @@ void UEquipmentSlotWidget::ClearSlot()
 
 	if (SlotIcon)
 	{
-		SlotIcon->SetBrushFromTexture(nullptr);
+		SlotIcon->SetBrushFromTexture(EmptySlotTexture);
 	}
 }
