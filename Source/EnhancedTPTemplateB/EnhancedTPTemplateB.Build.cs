@@ -15,7 +15,7 @@ public class EnhancedTPTemplateB : ModuleRules
 			"Engine", 
 			"InputCore", 
 			"EnhancedInput",
-			"MoviePlayer",
+			"LoadingScreenModule",
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] { });

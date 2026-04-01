@@ -1,7 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/PlayerController.h"
+#include "BasePC.h"
 #include "MyPlayerController.generated.h"
 
 class UPlayerStatWidget;
@@ -9,10 +9,12 @@ class UPlayerStats;
 class UInputMappingContext;
 
 UCLASS()
-class ENHANCEDTPTEMPLATEB_API AMyPlayerController : public APlayerController
+class ENHANCEDTPTEMPLATEB_API AMyPlayerController : public ABasePC
 {
 	GENERATED_BODY()
 	
+	AMyPlayerController();
+
 protected:
 
 	virtual void BeginPlay() override;

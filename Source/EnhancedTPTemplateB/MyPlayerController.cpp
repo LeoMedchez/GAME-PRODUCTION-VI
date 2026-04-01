@@ -6,6 +6,10 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputMappingContext.h"
 
+AMyPlayerController::AMyPlayerController()
+{
+}
+
 void AMyPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
