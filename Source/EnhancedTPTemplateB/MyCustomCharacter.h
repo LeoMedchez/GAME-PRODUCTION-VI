@@ -4,6 +4,8 @@
 #include "GameFramework/Character.h"
 #include "MyCustomCharacter.generated.h"
 
+class UInputAction;
+
 UCLASS()
 class ENHANCEDTPTEMPLATEB_API AMyCustomCharacter : public ACharacter
 {
@@ -16,6 +18,12 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* BackActionRight;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* BackActionBottom;
 
 public:	
 	// Called every frame

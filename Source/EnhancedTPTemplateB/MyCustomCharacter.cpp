@@ -1,6 +1,9 @@
 #include "MyCustomCharacter.h"
 #include "GameHUD.h"
 #include "MyBlueprintFunctionLibrary.h"
+#include "EnhancedInputComponent.h"
+#include "InputAction.h"
+#include "Components/InputComponent.h"
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values
@@ -30,6 +33,15 @@ void AMyCustomCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	if (UEnhancedInputComponent* EnhancedInputComp = Cast<UEnhancedInputComponent>(PlayerInputComponent))
+	{
+		//Using Macros to bind the correct Back Input Action
+#if PLATFORM_SWITCH
+		EnhancedInputComp->BindAction(BackActionBottom, ETriggerEvent::Completed, this, &AMyCustomCharacter::Back);
+#else
+		EnhancedInputComp->BindAction(BackActionRight, ETriggerEvent::Completed, this, &AMyCustomCharacter::Back);
+#endif
+	}
 }
 
 void AMyCustomCharacter::DoPause()

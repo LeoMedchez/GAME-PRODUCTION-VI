@@ -4,7 +4,7 @@
 #include "InventoryWidgetBase.h"
 #include "InventorySlotWidget.h"
 #include "Components/ScrollBox.h"
-#include "Components/Button.h"
+#include "CustomButton.h"
 #include "EquipmentSlotWidget.h"
 #include "InventoryPanelWidget.generated.h"
 
@@ -31,13 +31,13 @@ protected:
 	UEquipmentSlotWidget* ShieldSlot;
 
 	UPROPERTY(meta = (BindWidget))
-	UButton* EquipButton;
+	UCustomButton* EquipButton;
 
 	UPROPERTY(meta = (BindWidget))
-	UButton* UnequipWeaponButton;
+	UCustomButton* UnequipWeaponButton;
 
 	UPROPERTY(meta = (BindWidget))
-	UButton* UnequipShieldButton;
+	UCustomButton* UnequipShieldButton;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Inventory")
 	TSubclassOf<UInventorySlotWidget> InventorySlotClass;

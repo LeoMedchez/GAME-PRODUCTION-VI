@@ -36,7 +36,6 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	class UCustomButton* OptionsButton;
 	
-
 	UPROPERTY()
 	UUIDataAsset* UIDataAsset;
 

@@ -7,17 +7,17 @@ void UInventoryPanelWidget::NativeConstruct()
 
 	if (EquipButton)
 	{
-		EquipButton->OnClicked.AddDynamic(this, &UInventoryPanelWidget::OnEquipButtonClicked);
+		EquipButton->GetButton()->OnClicked.AddDynamic(this, &UInventoryPanelWidget::OnEquipButtonClicked);
 	}
 
 	if (UnequipWeaponButton)
 	{
-		UnequipWeaponButton->OnClicked.AddDynamic(this, &UInventoryPanelWidget::OnUnequipWeaponButtonClicked);
+		UnequipWeaponButton->GetButton()->OnClicked.AddDynamic(this, &UInventoryPanelWidget::OnUnequipWeaponButtonClicked);
 	}
 
 	if (UnequipShieldButton)
 	{
-		UnequipShieldButton->OnClicked.AddDynamic(this, &UInventoryPanelWidget::OnUnequipShieldButtonClicked);
+		UnequipShieldButton->GetButton()->OnClicked.AddDynamic(this, &UInventoryPanelWidget::OnUnequipShieldButtonClicked);
 	}
 
 	if (EquipButton)
