@@ -6,7 +6,7 @@
 #include "LoadingScreenModule.h"
 #include "CustomGameViewportClient.h"
 #include "Components/AudioComponent.h"
-//#include "AutoSaveSubsystem.h"
+#include "AutoSaveSubsystem.h"
 
 void UMyGameInstance::Init()
 {
@@ -15,20 +15,20 @@ void UMyGameInstance::Init()
 	FTickerDelegate TickDelegate = FTickerDelegate::CreateUObject(this, &UMyGameInstance::Tick);
 	TickDelegateHandle = FTSTicker::GetCoreTicker().AddTicker(TickDelegate);
 
-	//IPlatformInputDeviceMapper::Get().GetOnInputDeviceConnectionChange().AddUObject(this, &UMyGameInstance::OnControllerChanged);
+	IPlatformInputDeviceMapper::Get().GetOnInputDeviceConnectionChange().AddUObject(this, &UMyGameInstance::OnControllerChanged);
 
 	FCoreUObjectDelegates::PreLoadMap.AddUObject(this, &UMyGameInstance::BeginLoadingScreen);
 
 	FCoreUObjectDelegates::PostLoadMapWithWorld.AddUObject(this, &UMyGameInstance::EndLoadingScreen);
 
-	/*if (UAutoSaveSubsystem* AutoSaveSubsystem = GetSubsystem<UAutoSaveSubsystem>())
+	if (UAutoSaveSubsystem* AutoSaveSubsystem = GetSubsystem<UAutoSaveSubsystem>())
 	{
 		AutoSaveSubsystem->SaveNotificationWidgetClass = SaveNotificationWidgetClass;
 
 		AutoSaveSubsystem->LoadGame();
 
 		bisMusicMuted = AutoSaveSubsystem->GetIsMuted();
-	}*/
+	}
 }
 
 void UMyGameInstance::Shutdown()
@@ -39,24 +39,26 @@ void UMyGameInstance::Shutdown()
 
 bool UMyGameInstance::Tick(float DeltaSeconds)
 {
+#if !UE_BUILD_SHIPPING
 	if (GEngine)
 	{
-		FString message = FString::Printf(TEXT("Active Controller ID: %d"), ActiveControllerID);
+		FString message = FString::Printf(TEXT("Active Controller ID: %d"), CurrentActiveControllerID);
 
 		GEngine->AddOnScreenDebugMessage(1, 0.2f, FColor::Blue, *message);
 	}
+#endif
 
 	return true;
 }
 
 void UMyGameInstance::SetActiveControllerID(int32 ControllerID)
 {
-	ActiveControllerID = ControllerID;
+	CurrentActiveControllerID = ControllerID;
 }
 
 int32 UMyGameInstance::GetActiveControllerID()
 {
-	return ActiveControllerID;
+	return CurrentActiveControllerID;
 }
 
 void UMyGameInstance::BeginLoadingScreen(const FString& MapName)
@@ -99,77 +101,98 @@ void UMyGameInstance::EndLoadingScreen(UWorld* InLoadedWorld)
 	}
 }
 
-	//UNCOMMENT WHEN CONTROLLER IS ADDED
-//void UMyGameInstance::OnControllerChanged(EInputDeviceConnectionState connectionState, FPlatformUserId userID, FInputDeviceId inputrDeviceID)
-//{
-//	UE_LOG(LogTemp, Warning, TEXT("Controller Changed"));
-//
-//	FString UserId_Text;
-//	if (userID == PLATFORMUSERID_NONE)
-//	{
-//		UserId_Text = TEXT("None");
-//	}
-//	else
-//	{
-//		UserId_Text = FString::Printf(TEXT("%d"), userID.GetInternalId());
-//	}
-//
-//	if (connectionState == EInputDeviceConnectionState::Disconnected)
-//	{
-//		FString message = FString::Printf(TEXT("Controller Connection Changed - InputDeviceID:%d, UserID:%s, Disconnected"), inputDeviceID.GetId(), *UserId_Text);
-//		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, message);
-//		UE_LOG(LogTemp, Warning, TEXT("%s"), *message);
-//	}
-//	else if (connectionState == EInputDeviceConnectionState::Connected)
-//	{
-//		FString message = FString::Printf(TEXT("Controller Connection Changed - InputDeviceID:%d, UserID:%s, Connected"), inputDeviceID.GetId(), *UserId_Text);
-//		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, message);
-//		UE_LOG(LogTemp, Warning, TEXT("%s"), *message);
-//	}
-//
-//	int32 ActiveControllerID = GetActiveControllerID();
-//	if (ActiveControllerID == -1)
-//	{
-//		return;
-//	}
-//
-//	int32 ChangedControllerID = inputDeviceID.GetId();
-//	if (ActiveControllerID + 1 == ChangedControllerID)
-//	{
-//		if (APlayerController* ActivePC = UMyBlueprintFunctionLibrary::GetActivePlayerController(this))
-//		{
-//			if (connectionState == EInputDeviceConnectionState::Connected)
-//			{
-//				if (ControllerDisconnectedWidget)
-//				{
-//					if (bDidControllerDisconnectPauseGame)
-//					{
-//						UGameplayStatics::SetGamePaused(this, false);
-//						bDidControllerDisconnectPauseGame = false;
-//					}
-//					ControllerDisconnectedWidget->RemoveFromParent();
-//				}
-//			}
-//			else
-//			{
-//				if (ControllerDisconnectedWidgetClass)
-//				{
-//					if (!UGameplayStatics::IsGamePaused(this))
-//					{
-//						bDidControllerDisconnectPauseGame = true;
-//						UGameplayStatics::SetGamePaused(this, true);
-//					}
-//					ControllerDisconnectedWidget = CreateWidget<UControllerDisconnectedWidget>(ActivePC, ControllerDisconnectedWidgetClass);
-//					ControllerDisconnectedWidget->AddToViewport(100);
-//				}
-//				else
-//				{
-//					GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("ControllerDisconnectedWidgetClass NOT Set"));
-//				}
-//			}
-//		}
-//	}
-//}
+UUIDataAsset* UMyGameInstance::GetUIDataAsset() const
+{
+	FString PlatformName = UGameplayStatics::GetPlatformName();
+
+	if (PlatformName == "PS5")
+	{
+		return PS5UIDataAsset;
+	}
+	else if (PlatformName == "SWITCH")
+	{
+		return SwitchUIDataAsset;
+	}
+	else if(PlatformName == "XBOX")
+	{
+		return XboxUIDataAsset;
+	}
+	else
+	{
+		return PCUIDataAsset;
+	}
+}
+
+void UMyGameInstance::OnControllerChanged(EInputDeviceConnectionState connectionState, FPlatformUserId userID, FInputDeviceId inputDeviceID)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Controller Changed"));
+
+	FString UserId_Text;
+	if (userID == PLATFORMUSERID_NONE)
+	{
+		UserId_Text = TEXT("None");
+	}
+	else
+	{
+		UserId_Text = FString::Printf(TEXT("%d"), userID.GetInternalId());
+	}
+
+	if (connectionState == EInputDeviceConnectionState::Disconnected)
+	{
+		FString message = FString::Printf(TEXT("Controller Connection Changed - InputDeviceID:%d, UserID:%s, Disconnected"), inputDeviceID.GetId(), *UserId_Text);
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, message);
+		UE_LOG(LogTemp, Warning, TEXT("%s"), *message);
+	}
+	else if (connectionState == EInputDeviceConnectionState::Connected)
+	{
+		FString message = FString::Printf(TEXT("Controller Connection Changed - InputDeviceID:%d, UserID:%s, Connected"), inputDeviceID.GetId(), *UserId_Text);
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, message);
+		UE_LOG(LogTemp, Warning, TEXT("%s"), *message);
+	}
+
+	int32 ActiveControllerID = GetActiveControllerID();
+	if (ActiveControllerID == -1)
+	{
+		return;
+	}
+
+	int32 ChangedControllerID = inputDeviceID.GetId();
+	if (ActiveControllerID + 1 == ChangedControllerID)
+	{
+		if (APlayerController* ActivePC = UMyBlueprintFunctionLibrary::GetActivePlayerController(this))
+		{
+			if (connectionState == EInputDeviceConnectionState::Connected)
+			{
+				if (ControllerDisconnectedWidget)
+				{
+					if (bDidControllerDisconnectPauseGame)
+					{
+						UGameplayStatics::SetGamePaused(this, false);
+						bDidControllerDisconnectPauseGame = false;
+					}
+					ControllerDisconnectedWidget->RemoveFromParent();
+				}
+			}
+			else
+			{
+				if (ControllerDisconnectedWidgetClass)
+				{
+					if (!UGameplayStatics::IsGamePaused(this))
+					{
+						bDidControllerDisconnectPauseGame = true;
+						UGameplayStatics::SetGamePaused(this, true);
+					}
+					ControllerDisconnectedWidget = CreateWidget<UControllerDisconnectedWidget>(ActivePC, ControllerDisconnectedWidgetClass);
+					ControllerDisconnectedWidget->AddToViewport(100);
+				}
+				else
+				{
+					GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("ControllerDisconnectedWidgetClass NOT Set"));
+				}
+			}
+		}
+	}
+}
 
 void UMyGameInstance::PlayGameplayMusic()
 {

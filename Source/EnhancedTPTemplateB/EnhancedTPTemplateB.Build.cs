@@ -16,6 +16,7 @@ public class EnhancedTPTemplateB : ModuleRules
 			"InputCore", 
 			"EnhancedInput",
 			"LoadingScreenModule",
+			"ApplicationCore",
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] { });

@@ -50,6 +50,10 @@ APlayerController* UMyBlueprintFunctionLibrary::GetActivePlayerController(const 
 
 ACharacter* UMyBlueprintFunctionLibrary::GetActivePlayerCharacter(const UObject* WorldContextObject)
 {
+	APlayerController* PC = GetActivePlayerController(WorldContextObject);
+
+	if (!PC) return nullptr;
+
 	return GetActivePlayerController(WorldContextObject)->GetCharacter();
 }
 
@@ -103,12 +107,11 @@ void UMyBlueprintFunctionLibrary::QuitAfterDelay(const UObject* WorldContextObje
 	}
 }
 
-	//UNCOMMENT WHEN CONTROLLERS GETS ADDED
-//UUIDataAsset* UMyBlueprintFunctionLibrary::GetUIDataAsset(const UObject* WorldContextObject)
-//{
-//	const UMyGameInstance* GameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(WorldContextObject));
-//
-//	if (!GameInstance) return nullptr;
-//
-//	return GameInstance->GetUIDataAsset();
-//}
+UUIDataAsset* UMyBlueprintFunctionLibrary::GetUIDataAsset(const UObject* WorldContextObject)
+{
+	const UMyGameInstance* GameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(WorldContextObject));
+
+	if (!GameInstance) return nullptr;
+
+	return GameInstance->GetUIDataAsset();
+}

@@ -18,7 +18,7 @@ public:
 	static void SetActiveControllerID(const UObject* WorldContextObject, int32 ControllerID);
 
 	UFUNCTION(BlueprintPure, Category = "MyBlueprintFunctionLibrary", meta = (WorldContext = "WorldContextObject"))
-	static int32 GetActiveControllerID(const UObject* WorldContextOnject);
+	static int32 GetActiveControllerID(const UObject* WorldContextObject);
 
 	UFUNCTION(BlueprintCallable, Category = "MyBlueprintFunctionLibrary", meta = (WorldContext = "WorldContextObject"))
 	static void RemoveAllPlayers(const UObject* WorldContextObject);
@@ -35,11 +35,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "MyBlueprintFunctionLibrary", meta = (WorldContext = "WorldContextObject"))
 	static void QuitAfterDelay(const UObject* WorldContextObject, float Delay = 0.4f);
 
-	//UNCOMMENT WHEN CONTROLLER IS ADDED
-//public:
-//
-//	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "MyBlueprintFunctionLibrary", meta = (WorldContext = "WorldContextObject"))
-//	static class UUIDataAsset* GetUIDataAsset(const UObject* WorldContextObject);
+public:
+
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "MyBlueprintFunctionLibrary", meta = (WorldContext = "WorldContextObject"))
+	static class UUIDataAsset* GetUIDataAsset(const UObject* WorldContextObject);
 
 private:
 

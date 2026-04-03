@@ -2,7 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
-//#include "ControllerDisconnectedWidget.h"
+#include "ControllerDisconnectedWidget.h"
 #include "MyGameInstance.generated.h"
 
 UCLASS()
@@ -11,21 +11,21 @@ class ENHANCEDTPTEMPLATEB_API UMyGameInstance : public UGameInstance
 	GENERATED_BODY()
 	
 	FTSTicker::FDelegateHandle TickDelegateHandle;
-	int32 ActiveControllerID = -1;
+	int32 CurrentActiveControllerID = -1;
 
-	//UNCOMMENT WHEN CONTROLLER IS ADDED TO GAME
-//private:
-//
-//	bool bDidControllerDisconnectPauseGame = false;
-//
-//	UPROPERTY()
-//	UControllerDisconnectedWidget* ControllerDisconnectedWidget;
-//
-//	UPROPERTY(EditAnywhere, Category = "Widget")
-//	TSubclassOf<UControllerDisconnectedWidget> ControllerDisconnectedWidgetClass;
-//
-//	UPROPERTY(EditAnywhere, Category = "Widget")
-//	TSubclassOf<UUserWidget> SaveNotificationWidgetClass;
+	
+private:
+
+	bool bDidControllerDisconnectPauseGame = false;
+
+	UPROPERTY()
+	UControllerDisconnectedWidget* ControllerDisconnectedWidget;
+
+	UPROPERTY(EditAnywhere, Category = "Widget")
+	TSubclassOf<UControllerDisconnectedWidget> ControllerDisconnectedWidgetClass;
+
+	UPROPERTY(EditAnywhere, Category = "Widget")
+	TSubclassOf<UUserWidget> SaveNotificationWidgetClass;
 
 public:
 
@@ -45,22 +45,25 @@ public:
 	UFUNCTION()
 	virtual void EndLoadingScreen(UWorld* InLoadedWorld);
 
-	//UNCOMMENT WHEN CONTROLLER IS ADDED TO GAME
-//private:
-//	
-//	UPROPERTY(EditAnywhere, Category = "UI", meta = (AllowPrivateAccess = "true"))
-//	class UUIDataAsset* XboxUIDataAsset;
-//
-//	UPROPERTY(EditAnywhere, Category = "UI", meta = (AllowPrivateAccess = "true"))
-//	class UUIDataAsset* PS5UIDataAsset;
-//
-//	UPROPERTY(EditAnywhere, Category = "UI", meta = (AllowPrivateAccess = "true"))
-//	class UUIDataAsset* SwitchUIDataAsset;
-//public:
-//	UFUNCTION(BlueprintCallable)
-//	class UUIDataAsset* GetUIDataAsset() const;
-//UFUNCTION()
-//void OnControllerChanged(EInputDeviceConnectionState connectionState, FPlatformUserId userID, FInputDeviceId inputrDeviceID);
+private:
+	
+	UPROPERTY(EditAnywhere, Category = "UI", meta = (AllowPrivateAccess = "true"))
+	class UUIDataAsset* PCUIDataAsset;
+
+	UPROPERTY(EditAnywhere, Category = "UI", meta = (AllowPrivateAccess = "true"))
+	class UUIDataAsset* XboxUIDataAsset;
+
+	UPROPERTY(EditAnywhere, Category = "UI", meta = (AllowPrivateAccess = "true"))
+	class UUIDataAsset* PS5UIDataAsset;
+
+	UPROPERTY(EditAnywhere, Category = "UI", meta = (AllowPrivateAccess = "true"))
+	class UUIDataAsset* SwitchUIDataAsset;
+
+public:
+	UFUNCTION(BlueprintCallable)
+	class UUIDataAsset* GetUIDataAsset() const;
+UFUNCTION()
+void OnControllerChanged(EInputDeviceConnectionState connectionState, FPlatformUserId userID, FInputDeviceId inputDeviceID);
 
 private:
 

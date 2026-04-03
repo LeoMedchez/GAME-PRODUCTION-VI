@@ -5,12 +5,15 @@
 
 bool AStartPC::InputKey(const FInputKeyEventArgs& Params)
 {
-	if (Params.Event == EInputEvent::IE_Released && Params.IsGamepad())
+	if (Params.Event == EInputEvent::IE_Released && !Params.Key.IsMouseButton())
 	{
-		int32 PlayerIndex = GetLocalPlayer()->GetLocalPlayerIndex();
-		UMyBlueprintFunctionLibrary::SetActiveControllerID(GetWorld(), PlayerIndex);
+		if (GetLocalPlayer())
+		{
+			int32 PlayerIndex = GetLocalPlayer()->GetLocalPlayerIndex();
+			UMyBlueprintFunctionLibrary::SetActiveControllerID(GetWorld(), PlayerIndex);
+		}
 
-		UMyBlueprintFunctionLibrary::RemoveAllPlayers(GetWorld());
+		//UMyBlueprintFunctionLibrary::RemoveAllPlayers(GetWorld());
 
 		ensure(!NextLevel.IsNull());
 		UGameplayStatics::OpenLevelBySoftObjectPtr(GetWorld(), NextLevel);

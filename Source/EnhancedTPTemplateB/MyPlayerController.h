@@ -19,16 +19,16 @@ protected:
 
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
-	TSubclassOf<UPlayerStatWidget> WidgetClass;
+	/*UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
+	TSubclassOf<UPlayerStatWidget> WidgetClass;*/
 
 	UPROPERTY(EditAnywhere, Category = "Input Mappings")
 	TArray<UInputMappingContext*> DefaultMappingContext;
 
 	virtual void SetupInputComponent() override;
 
-private:
-
-	UPROPERTY()
-	UPlayerStatWidget* StatWidget;
+//private:
+//
+//	UPROPERTY()
+//	UPlayerStatWidget* StatWidget;
 };

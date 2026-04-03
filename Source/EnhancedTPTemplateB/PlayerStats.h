@@ -15,11 +15,11 @@ class ENHANCEDTPTEMPLATEB_API UPlayerStats : public UActorComponent
 	GENERATED_BODY()
 
 public:	
-	// Sets default values for this component's properties
+	
 	UPlayerStats();
 
 protected:
-	// Called when the game starts
+	
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
@@ -41,7 +41,7 @@ protected:
 	bool bStaminaDepleted = false;
 
 public:	
-	// Called every frame
+	
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UFUNCTION(BlueprintCallable)

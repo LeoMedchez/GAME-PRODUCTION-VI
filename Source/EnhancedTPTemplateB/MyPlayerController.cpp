@@ -14,7 +14,7 @@ void AMyPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	StatWidget = CreateWidget<UPlayerStatWidget>(this, WidgetClass);
+	/*StatWidget = CreateWidget<UPlayerStatWidget>(this, WidgetClass);
 
 	if (StatWidget)
 	{
@@ -28,7 +28,7 @@ void AMyPlayerController::BeginPlay()
 
 			StatWidget->InitializeWithStats(PlayerStats);
 		}
-	}
+	}*/
 }
 
 void AMyPlayerController::SetupInputComponent()

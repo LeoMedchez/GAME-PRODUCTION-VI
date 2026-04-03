@@ -5,7 +5,7 @@
 ABaseGM::ABaseGM()
 	:Super()
 {
-	//PlayerControllerClass = ABasePC:StaticClass();
+	PlayerControllerClass = ABasePC::StaticClass();
 
 	HUDClass = ABaseHUD::StaticClass();
 }
