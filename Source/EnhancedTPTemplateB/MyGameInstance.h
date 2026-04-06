@@ -5,6 +5,17 @@
 #include "ControllerDisconnectedWidget.h"
 #include "MyGameInstance.generated.h"
 
+UENUM(BlueprintType)
+enum class EActiveInputDevice : uint8
+{
+	KeyboardMouse,
+	PlayStation,
+	Xbox,
+	Switch
+};
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnInputDeviceChanged, EActiveInputDevice, NewDevice);
+
 UCLASS()
 class ENHANCEDTPTEMPLATEB_API UMyGameInstance : public UGameInstance
 {
@@ -13,7 +24,6 @@ class ENHANCEDTPTEMPLATEB_API UMyGameInstance : public UGameInstance
 	FTSTicker::FDelegateHandle TickDelegateHandle;
 	int32 CurrentActiveControllerID = -1;
 
-	
 private:
 
 	bool bDidControllerDisconnectPauseGame = false;
@@ -59,11 +69,34 @@ private:
 	UPROPERTY(EditAnywhere, Category = "UI", meta = (AllowPrivateAccess = "true"))
 	class UUIDataAsset* SwitchUIDataAsset;
 
+	UFUNCTION()
+	void OnInputDeviceChangedHandler(EActiveInputDevice NewDevice);
+
+	EActiveInputDevice CurrentInputDevice = EActiveInputDevice::KeyboardMouse;
+
 public:
+
+	UPROPERTY(BlueprintAssignable, Category = "Input")
+	FOnInputDeviceChanged OnInputDeviceChanged;
+
+	UFUNCTION(BlueprintCallable, Category = "Input")
+	EActiveInputDevice GetCurrentInputDevice() const { return CurrentInputDevice; }
+
+	UFUNCTION(BlueprintCallable, Category = "Input")
+	void SetCurrentInputDevice(EActiveInputDevice NewDevice);
+
 	UFUNCTION(BlueprintCallable)
 	class UUIDataAsset* GetUIDataAsset() const;
-UFUNCTION()
-void OnControllerChanged(EInputDeviceConnectionState connectionState, FPlatformUserId userID, FInputDeviceId inputDeviceID);
+
+	UFUNCTION(BlueprintCallable)
+	class UUIDataAsset* GetUIDataAssetForCurrentDevice() const;
+
+	UFUNCTION(BlueprintCallable)
+	void OnControllerChanged(EInputDeviceConnectionState connectionState, FPlatformUserId userID, FInputDeviceId inputDeviceID);
+
+	void DismissControllerDisconnectWidget();
+	
+	EActiveInputDevice LastControllerDevice = EActiveInputDevice::Xbox;
 
 private:
 

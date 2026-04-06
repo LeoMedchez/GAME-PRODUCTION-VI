@@ -37,6 +37,9 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Inventory")
 	void SetSelectedVisual(bool bSelcted);
 
+	UPROPERTY(meta = (BindWidget))
+	UButton* SlotButton;
+
 protected:
 
 	virtual void NativeConstruct() override;
@@ -55,9 +58,6 @@ protected:
 
 	UPROPERTY(meta = (BindWidget))
 	UTextBlock* ItemDamageText;
-
-	UPROPERTY(meta = (BindWidget))
-	UButton* SlotButton;
 
 	UFUNCTION()
 	void OnSlotButtonClicked();

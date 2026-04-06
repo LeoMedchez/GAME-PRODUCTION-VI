@@ -53,6 +53,8 @@ private:
 
 	void UpdateEquipButton();
 
+	void SetInitialFocus();
+
 	UFUNCTION()
 	void OnEquipButtonClicked();
 
@@ -61,6 +63,9 @@ private:
 
 	UFUNCTION()
 	void OnUnequipShieldButtonClicked();
+
+private:
+	FTimerHandle FocusInventoryPanelTimerHandle;
 
 public:
 

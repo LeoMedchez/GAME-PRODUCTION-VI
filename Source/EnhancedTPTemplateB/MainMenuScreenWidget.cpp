@@ -5,6 +5,7 @@
 #include "MyBlueprintFunctionLibrary.h"
 #include "Kismet/GameplayStatics.h"
 #include "EnhancedInputComponent.h"
+#include "MyGameInstance.h"
 
 void UMainMenuScreenWidget::NativeConstruct()
 {
@@ -85,12 +86,19 @@ void UMainMenuScreenWidget::ShowControlsWidget()
 	if (!ControlsWidget)
 	{
 		APlayerController* OwningPlayer = UMyBlueprintFunctionLibrary::GetActivePlayerController(GetWorld());
-		ControlsWidget = CreateWidget<UUserWidget>(OwningPlayer, UIDataAsset->GetControlsWidget());
 
-		if (ControlsWidget)
+		UMyGameInstance* GI = Cast<UMyGameInstance>(GetGameInstance());
+		UIDataAsset = GI ? GI->GetUIDataAssetForCurrentDevice() : UMyBlueprintFunctionLibrary::GetUIDataAsset(GetWorld());
+
+		if(UIDataAsset)
 		{
-			SetFocus();
-			ControlsWidget->AddToViewport(100);
+			ControlsWidget = CreateWidget<UUserWidget>(OwningPlayer, UIDataAsset->GetControlsWidget());
+
+			if (ControlsWidget)
+			{
+				SetFocus();
+				ControlsWidget->AddToViewport(100);
+			}
 		}
 	}
 }

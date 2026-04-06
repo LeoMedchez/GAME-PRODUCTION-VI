@@ -1,6 +1,4 @@
 #include "MyPlayerController.h"
-#include "PlayerStatWidget.h"
-#include "PlayerStats.h"
 #include "GameFramework/Character.h"
 #include "Engine/LocalPlayer.h"
 #include "EnhancedInputSubsystems.h"
@@ -14,21 +12,6 @@ void AMyPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	/*StatWidget = CreateWidget<UPlayerStatWidget>(this, WidgetClass);
-
-	if (StatWidget)
-	{
-		StatWidget->AddToViewport();
-
-		ACharacter* PlayerCharacter = GetCharacter();
-
-		if (PlayerCharacter)
-		{
-			UPlayerStats* PlayerStats = PlayerCharacter->FindComponentByClass<UPlayerStats>();
-
-			StatWidget->InitializeWithStats(PlayerStats);
-		}
-	}*/
 }
 
 void AMyPlayerController::SetupInputComponent()
@@ -45,5 +28,21 @@ void AMyPlayerController::SetupInputComponent()
 			}
 		}
 	}
+}
 
+bool AMyPlayerController::InputKey(const FInputKeyEventArgs& Params)
+{
+	if (Params.Event == EInputEvent::IE_Pressed && !Params.Key.IsGamepadKey())
+	{
+		if (UMyGameInstance* GI = Cast<UMyGameInstance>(GetGameInstance()))
+		{
+			if (GI->GetCurrentInputDevice() != EActiveInputDevice::KeyboardMouse)
+			{
+				GI->LastControllerDevice = GI->GetCurrentInputDevice();
+				GI->SetCurrentInputDevice(EActiveInputDevice::KeyboardMouse);
+			}
+		}
+	}
+
+	return Super::InputKey(Params);
 }

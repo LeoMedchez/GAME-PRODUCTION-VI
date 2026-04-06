@@ -113,5 +113,5 @@ UUIDataAsset* UMyBlueprintFunctionLibrary::GetUIDataAsset(const UObject* WorldCo
 
 	if (!GameInstance) return nullptr;
 
-	return GameInstance->GetUIDataAsset();
+	return GameInstance->GetUIDataAssetForCurrentDevice();
 }

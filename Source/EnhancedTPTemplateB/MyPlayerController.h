@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "BasePC.h"
+#include "MyGameInstance.h"
 #include "MyPlayerController.generated.h"
 
 class UPlayerStatWidget;
@@ -19,16 +20,11 @@ protected:
 
 	virtual void BeginPlay() override;
 
-	/*UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
-	TSubclassOf<UPlayerStatWidget> WidgetClass;*/
-
 	UPROPERTY(EditAnywhere, Category = "Input Mappings")
 	TArray<UInputMappingContext*> DefaultMappingContext;
 
 	virtual void SetupInputComponent() override;
 
-//private:
-//
-//	UPROPERTY()
-//	UPlayerStatWidget* StatWidget;
+	virtual bool InputKey(const FInputKeyEventArgs& Params)  override;
+
 };

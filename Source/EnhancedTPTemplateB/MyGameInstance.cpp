@@ -21,6 +21,8 @@ void UMyGameInstance::Init()
 
 	FCoreUObjectDelegates::PostLoadMapWithWorld.AddUObject(this, &UMyGameInstance::EndLoadingScreen);
 
+	OnInputDeviceChanged.AddDynamic(this, &UMyGameInstance::OnInputDeviceChangedHandler);
+
 	if (UAutoSaveSubsystem* AutoSaveSubsystem = GetSubsystem<UAutoSaveSubsystem>())
 	{
 		AutoSaveSubsystem->SaveNotificationWidgetClass = SaveNotificationWidgetClass;
@@ -28,6 +30,7 @@ void UMyGameInstance::Init()
 		AutoSaveSubsystem->LoadGame();
 
 		bisMusicMuted = AutoSaveSubsystem->GetIsMuted();
+		CurrentInputDevice = AutoSaveSubsystem->GetSavedInputDevice();
 	}
 }
 
@@ -101,6 +104,33 @@ void UMyGameInstance::EndLoadingScreen(UWorld* InLoadedWorld)
 	}
 }
 
+void UMyGameInstance::OnInputDeviceChangedHandler(EActiveInputDevice NewDevice)
+{
+	UE_LOG(LogTemp, Warning, TEXT("OnInputDeviceChangedHandler: NewDevice = %d"), (int32)NewDevice);
+	if (NewDevice == EActiveInputDevice::KeyboardMouse)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("OnInputDeviceChangedHandler: Calling DismissControllerDisconnectWidget"));
+		DismissControllerDisconnectWidget();
+	}
+}
+
+void UMyGameInstance::SetCurrentInputDevice(EActiveInputDevice NewDevice)
+{
+	if (CurrentInputDevice != NewDevice)
+	{
+		CurrentInputDevice = NewDevice;
+		UE_LOG(LogTemp, Warning, TEXT("SetCurrentInputDevice: Broadcasting OnInputDeviceChanged"));
+		OnInputDeviceChanged.Broadcast(NewDevice);
+
+		if (UAutoSaveSubsystem* AutoSave = GetSubsystem<UAutoSaveSubsystem>())
+		{
+			AutoSave->SetSavedInputDevice(NewDevice);
+			AutoSave->SaveGame();
+		}
+	}
+}
+
+//Works Based On Platform Name
 UUIDataAsset* UMyGameInstance::GetUIDataAsset() const
 {
 	FString PlatformName = UGameplayStatics::GetPlatformName();
@@ -119,6 +149,21 @@ UUIDataAsset* UMyGameInstance::GetUIDataAsset() const
 	}
 	else
 	{
+		return PCUIDataAsset;
+	}
+}
+
+UUIDataAsset* UMyGameInstance::GetUIDataAssetForCurrentDevice() const
+{
+	switch (CurrentInputDevice)
+	{
+	case EActiveInputDevice::PlayStation:
+		return PS5UIDataAsset;
+	case EActiveInputDevice::Xbox:
+		return XboxUIDataAsset;
+	case EActiveInputDevice::Switch:
+		return SwitchUIDataAsset;
+	default:
 		return PCUIDataAsset;
 	}
 }
@@ -163,15 +208,8 @@ void UMyGameInstance::OnControllerChanged(EInputDeviceConnectionState connection
 		{
 			if (connectionState == EInputDeviceConnectionState::Connected)
 			{
-				if (ControllerDisconnectedWidget)
-				{
-					if (bDidControllerDisconnectPauseGame)
-					{
-						UGameplayStatics::SetGamePaused(this, false);
-						bDidControllerDisconnectPauseGame = false;
-					}
-					ControllerDisconnectedWidget->RemoveFromParent();
-				}
+				DismissControllerDisconnectWidget();
+				SetCurrentInputDevice(LastControllerDevice);
 			}
 			else
 			{
@@ -191,6 +229,21 @@ void UMyGameInstance::OnControllerChanged(EInputDeviceConnectionState connection
 				}
 			}
 		}
+	}
+}
+
+void UMyGameInstance::DismissControllerDisconnectWidget()
+{
+	UE_LOG(LogTemp, Warning, TEXT("DismissControllerDisconnectedWidget: Widget = %s"), ControllerDisconnectedWidget ? TEXT("Valid") : TEXT("Null"));
+	if (ControllerDisconnectedWidget)
+	{
+		if (bDidControllerDisconnectPauseGame)
+		{
+			UGameplayStatics::SetGamePaused(this, false);
+			bDidControllerDisconnectPauseGame = false;
+		}
+		ControllerDisconnectedWidget->RemoveFromParent();
+		ControllerDisconnectedWidget = nullptr;
 	}
 }
 

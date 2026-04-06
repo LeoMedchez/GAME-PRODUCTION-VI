@@ -2,6 +2,7 @@
 #include "MyBlueprintFunctionLibrary.h"
 #include "GameFramework/PlayerInput.h"
 #include "Kismet/GameplayStatics.h"
+#include "MyGameInstance.h"
 
 bool AStartPC::InputKey(const FInputKeyEventArgs& Params)
 {
@@ -13,7 +14,19 @@ bool AStartPC::InputKey(const FInputKeyEventArgs& Params)
 			UMyBlueprintFunctionLibrary::SetActiveControllerID(GetWorld(), PlayerIndex);
 		}
 
-		//UMyBlueprintFunctionLibrary::RemoveAllPlayers(GetWorld());
+		if (UMyGameInstance* GI = Cast<UMyGameInstance>(GetGameInstance()))
+		{
+			if (Params.Key.IsGamepadKey())
+			{
+				GI->SetCurrentInputDevice(EActiveInputDevice::Xbox);
+			}
+			else
+			{
+				GI->SetCurrentInputDevice(EActiveInputDevice::KeyboardMouse);
+			}
+		}
+
+		UMyBlueprintFunctionLibrary::RemoveAllPlayers(GetWorld());
 
 		ensure(!NextLevel.IsNull());
 		UGameplayStatics::OpenLevelBySoftObjectPtr(GetWorld(), NextLevel);

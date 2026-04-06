@@ -4,6 +4,7 @@
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "AutoSaveGame.h"
 #include "Blueprint/UserWidget.h"
+#include "MyGameInstance.h"
 #include "AutoSaveSubsystem.generated.h"
 
 UCLASS()
@@ -22,6 +23,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "AutoSave")
 	bool GetIsMuted();
 
+	UFUNCTION()
+	EActiveInputDevice GetSavedInputDevice() const;
+
+	UFUNCTION()
+	void SetSavedInputDevice(EActiveInputDevice NewDevice);
+
 	UFUNCTION(BlueprintCallable, Category = "AutoSave")
 	bool SaveGame();
 
@@ -37,6 +44,9 @@ protected:
 	UUserWidget* ActiveSaveNotificationWidget;
 
 	bool bIsMuted;
+
+	UPROPERTY()
+	EActiveInputDevice SavedInputDevice = EActiveInputDevice::KeyboardMouse;
 
 	void ShowSaveNotificationWidget();
 	void HideSaveNotificationWidget();

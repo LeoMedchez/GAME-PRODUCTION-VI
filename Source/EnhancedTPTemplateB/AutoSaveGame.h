@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/SaveGame.h"
+#include "MyGameInstance.h"
 #include "AutoSaveGame.generated.h"
 
 UCLASS()
@@ -14,8 +15,11 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "Save Data")
 	bool bIsMuted;
 
+	UPROPERTY(VisibleAnywhere, Category = "Save Data")
+	EActiveInputDevice InputDevice;
+
 	UAutoSaveGame()
-		:bIsMuted(false)
+		:bIsMuted(false), InputDevice(EActiveInputDevice::KeyboardMouse)
 	{
 	}
 };

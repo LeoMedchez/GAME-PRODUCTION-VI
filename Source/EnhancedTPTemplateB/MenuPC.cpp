@@ -2,6 +2,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "Engine/LocalPlayer.h"
 #include "InputMappingContext.h"
+#include "MyGameInstance.h"
 
 void AMenuPC::SetupInputComponent()
 {
@@ -19,4 +20,21 @@ void AMenuPC::SetupInputComponent()
 			}
 		}
 	}
+}
+
+bool AMenuPC::InputKey(const FInputKeyEventArgs& Params)
+{
+	if (Params.Event == EInputEvent::IE_Pressed && !Params.Key.IsGamepadKey())
+	{
+		if (UMyGameInstance* GI = Cast<UMyGameInstance>(GetGameInstance()))
+		{
+			if (GI->GetCurrentInputDevice() != EActiveInputDevice::KeyboardMouse)
+			{
+				GI->LastControllerDevice = GI->GetCurrentInputDevice();
+				GI->SetCurrentInputDevice(EActiveInputDevice::KeyboardMouse);
+			}
+		}
+	}
+
+	return Super::InputKey(Params);
 }

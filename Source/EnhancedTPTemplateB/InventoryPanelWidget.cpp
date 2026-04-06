@@ -40,6 +40,12 @@ void UInventoryPanelWidget::RefreshInventory_Implementation()
 {
 	RefreshList();
 	RefreshEquipmentPanel();
+	
+	if (UWorld* World = GetWorld())
+	{
+		World->GetTimerManager().SetTimer(FocusInventoryPanelTimerHandle, this, &UInventoryPanelWidget::SetInitialFocus, 0.05f, false);
+	}
+	SetInitialFocus();
 }
 
 void UInventoryPanelWidget::RefreshList()
@@ -107,6 +113,31 @@ void UInventoryPanelWidget::UpdateEquipButton()
 	if (!EquipButton) return;
 
 	EquipButton->SetIsEnabled(SelectedSlot != nullptr);
+}
+
+void UInventoryPanelWidget::SetInitialFocus()
+{
+	if (!InventoryComponent) return;
+	
+	bool bHasItems = InventoryComponent->InventoryItems.Num() > 0;
+	bool bHasWeapon = InventoryComponent->EquippedWeapon.ItemName != "";
+
+	if (bHasItems)
+	{
+		if (InventoryList && InventoryList->GetChildrenCount() > 0)
+		{
+			UInventorySlotWidget* FirstSlot = Cast<UInventorySlotWidget>(InventoryList->GetChildAt(0));
+			if (FirstSlot && FirstSlot->SlotButton)
+			{
+				FirstSlot->SlotButton->SetFocus();
+			}
+		}
+	}
+	else if (bHasWeapon)
+	{
+		if (UnequipWeaponButton)
+			UnequipWeaponButton->SetFocus();
+	}
 }
 
 void UInventoryPanelWidget::OnSlotSelected(UInventorySlotWidget* SelectedSlotWidget)
