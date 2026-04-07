@@ -9,11 +9,17 @@ void FLoadingScreenModule::StartupModule()
 
 	if (ULevelLoadingSettings* Settings = GetMutableDefault<ULevelLoadingSettings>())
 	{
-		const FSoftObjectPath& BGPath = Settings->BackgroundImage;
-
-		if (!BGPath.IsNull())
+		for(const FSoftObjectPath& BGPath : Settings->BackgroundImages)
 		{
-			BackgroundTexture = Cast<UTexture2D>(StaticLoadObject(UTexture2D::StaticClass(), nullptr, *BGPath.ToString()));
+			if (!BGPath.IsNull())
+			{
+				UTexture2D* Texture = Cast<UTexture2D>(StaticLoadObject(
+					UTexture2D::StaticClass(), nullptr, *BGPath.ToString()));
+				if (Texture)
+				{
+					LoadedBackgroundTextures.Add(Texture);
+				}
+			}
 		}
 	}
 }
@@ -51,7 +57,7 @@ void FLoadingScreenModule::StartLoadingScreen(const FString& MapName)
 
 	LoadingScreen.MinimumLoadingScreenDisplayTime = Settings->MinimumLoadingScreenDisplayTime;
 
-	LoadingScreen.WidgetLoadingScreen = SNew(SLoadingScreenSlateWidget).BackgroundTexture(BackgroundTexture);
+	LoadingScreen.WidgetLoadingScreen = SNew(SLoadingScreenSlateWidget).BackgroundTextures(LoadedBackgroundTextures).ImageSwitchInterval(Settings->ImageSwitchInterval);
 
 	GetMoviePlayer()->SetupLoadingScreen(LoadingScreen);
 }

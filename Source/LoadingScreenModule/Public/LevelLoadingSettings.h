@@ -15,7 +15,10 @@ public:
 	TArray<FSoftObjectPath> MapsWithLoadingScreens;
 
 	UPROPERTY(Config, EditAnywhere, Category = "Loading Screen", meta = (AllowedClasses = "Texture"))
-	FSoftObjectPath BackgroundImage;
+	TArray<FSoftObjectPath> BackgroundImages;
+
+	UPROPERTY(Config, EditAnywhere, Category = "Loading Screen")
+	float ImageSwitchInterval = 3.0f;
 
 	UPROPERTY(Config, EditAnywhere, Category = "Loading Screen")
 	float MinimumLoadingScreenDisplayTime = 2.0f;

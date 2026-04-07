@@ -13,5 +13,5 @@ public:
 
 private:
 
-	UTexture2D* BackgroundTexture;
+	TArray<UTexture2D*> LoadedBackgroundTextures;
 };
