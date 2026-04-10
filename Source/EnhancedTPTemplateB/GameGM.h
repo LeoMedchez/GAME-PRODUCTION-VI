@@ -14,4 +14,9 @@ public:
 	AGameGM();
 
 	virtual void StartPlay() override;
+
+	virtual UClass* GetDefaultPawnClassForController_Implementation(AController* InController) override;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Character Select")
+	TSubclassOf<APawn> DefaulfCharacterClass;
 };
