@@ -68,3 +68,23 @@ Content/ParagonGideon/Characters/Heroes/Gideon/Animations/** filter=lfs merge=lf
 Content/ParagonGideon/Characters/Heroes/Gideon/Materials/** filter=lfs merge=lfs -text
 
 Content/ParagonGideon/Characters/Heroes/Gideon/Textures/** filter=lfs merge=lfs -text
+
+Content/Necropolis/Audio/** filter=lfs merge=lfs -text
+
+Content/Necropolis/Foliage/** filter=lfs merge=lfs -text
+
+Content/Necropolis/Gameplay/** filter=lfs merge=lfs -text
+
+Content/Necropolis/Landscape/** filter=lfs merge=lfs -text
+
+Content/Necropolis/Levels/** filter=lfs merge=lfs -text
+
+Content/Necropolis/Materials/** filter=lfs merge=lfs -text
+
+Content/Necropolis/PhysicalMaterials/** filter=lfs merge=lfs -text
+
+Content/Necropolis/Placeables/** filter=lfs merge=lfs -text
+
+Content/Necropolis/Textures/** filter=lfs merge=lfs -text
+
+Content/Necropolis/VFX/** filter=lfs merge=lfs -text
