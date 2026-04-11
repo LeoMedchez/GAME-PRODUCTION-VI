@@ -88,3 +88,9 @@ Content/Necropolis/Placeables/** filter=lfs merge=lfs -text
 Content/Necropolis/Textures/** filter=lfs merge=lfs -text
 
 Content/Necropolis/VFX/** filter=lfs merge=lfs -text
+
+Content/ParagonKhaimera/** filter=lfs merge=lfs -text
+
+Content/ParagonMorigesh/** filter=lfs merge=lfs -text
+
+Content/Werewolf/** filter=lfs merge=lfs -text
