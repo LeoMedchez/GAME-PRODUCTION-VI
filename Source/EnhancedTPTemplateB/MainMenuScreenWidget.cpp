@@ -11,16 +11,12 @@ void UMainMenuScreenWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	if (StartGameButton)
-	{
-		StartGameButton->GetButton()->SetFocus();
-		StartGameButton->SetPlayFirstFocusSound(false);
-		StartGameButton->GetButton()->OnClicked.AddDynamic(this, &UMainMenuScreenWidget::OnStartGameButtonClicked);
-	}
-
 	if (ControlsButton)
 	{
+		ControlsButton->GetButton()->SetFocus();
+		ControlsButton->SetPlayFirstFocusSound(false);
 		ControlsButton->GetButton()->OnClicked.AddDynamic(this, &UMainMenuScreenWidget::OnControlsButtonClicked);
+		ControlsButton->SetFocus();
 	}
 
 	if (OptionsButton)
@@ -48,22 +44,6 @@ void UMainMenuScreenWidget::NativeConstruct()
 		EnhancedInputComponent->BindAction(BackActionRight, ETriggerEvent::Completed, this, &UMainMenuScreenWidget::Back);
 #endif
 
-	}
-}
-
-void UMainMenuScreenWidget::OnStartGameButtonClicked()
-{
-	UE_LOG(LogTemp, Log, TEXT("Start Game Button Clicked."));
-
-	if (!NextLevel.IsNull())
-	{
-		SetFocus();
-		UMyBlueprintFunctionLibrary::RemoveAllPlayers(GetWorld());
-		UMyBlueprintFunctionLibrary::LoadLevelByReferenceAfterDelay(this, NextLevel);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Log, TEXT("NextLevel is not set in UMainMenuScreenWidget."));
 	}
 }
 
@@ -153,8 +133,9 @@ void UMainMenuScreenWidget::Back()
 			HideControlsWidget();
 			HideOptionsWidget();
 
-			StartGameButton->SetIsFocusable(true);
-			StartGameButton->GetButton()->SetFocus();
+			ControlsButton->SetIsFocusable(true);
+			ControlsButton->GetButton()->SetFocus();
+			ControlsButton->SetFocus();
 		}
 	}
 }

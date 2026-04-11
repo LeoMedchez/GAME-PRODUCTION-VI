@@ -21,8 +21,6 @@ public:
 	TObjectPtr<UWidgetAnimation> MovingImage;
 
 private:
-	UPROPERTY(meta = (BindWidget))
-	class UCustomButton* StartGameButton;
 
 	UPROPERTY(meta = (BindWidget))
 	class UCustomButton* QuitGameButton;
@@ -47,9 +45,6 @@ private:
 
 	UPROPERTY()
 	class UUserWidget* OptionsWidget;
-
-	UFUNCTION()
-	void OnStartGameButtonClicked();
 
 	UFUNCTION()
 	void OnQuitGameButtonClicked();

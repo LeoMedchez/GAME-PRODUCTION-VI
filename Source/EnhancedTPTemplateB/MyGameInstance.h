@@ -161,15 +161,4 @@ public:
 
 	UFUNCTION()
 	void EnableAllMusic();
-
-public:
-
-	virtual void SetSelectedCharacter_Implementation(TSubclassOf<APawn> CharacterClass);
-
-	virtual TSubclassOf<APawn> GetSelectedCharacter_Implementation();
-
-private:
-
-		TSubclassOf<APawn> SelectedCharacterClass;
-
 };

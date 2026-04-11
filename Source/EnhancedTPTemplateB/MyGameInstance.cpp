@@ -251,6 +251,7 @@ void UMyGameInstance::PlayGameplayMusic()
 {
 	StopMenuMusic();
 	StopStartScreenMusic();
+	StopGameOverMusic();
 
 	if (!bisMusicMuted)
 	{
@@ -453,14 +454,4 @@ void UMyGameInstance::EnableAllMusic()
 {
 	bisMusicMuted = false;
 	PlayMenuMusic();
-}
-
-void UMyGameInstance::SetSelectedCharacter_Implementation(TSubclassOf<APawn> CharacterClass)
-{
-	SelectedCharacterClass = CharacterClass;
-}
-
-TSubclassOf<APawn> UMyGameInstance::GetSelectedCharacter_Implementation()
-{
-	return SelectedCharacterClass;
 }

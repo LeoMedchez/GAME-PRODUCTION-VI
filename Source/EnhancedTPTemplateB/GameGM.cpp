@@ -3,7 +3,6 @@
 #include "GameHUD.h"
 #include "Kismet/GameplayStatics.h"
 #include "MyGameInstance.h"
-#include "CharacterSelectInterface.h"
 
 AGameGM::AGameGM()
 	: Super()
@@ -39,20 +38,4 @@ void AGameGM::StartPlay()
 	{
 		GEngine->AddOnScreenDebugMessage(1, 5, FColor::Red, TEXT("GameInstance is not Set"));
 	}
-}
-
-UClass* AGameGM::GetDefaultPawnClassForController_Implementation(AController* InController)
-{
-	if (UMyGameInstance* GI = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(this)))
-	{
-		TSubclassOf<APawn> SelectedClass = ICharacterSelectInterface::Execute_GetSelectedCharacter(GI);
-
-		if (SelectedClass)
-		{
-			return SelectedClass;
-		}
-	}
-
-	return DefaulfCharacterClass ? (UClass*)DefaulfCharacterClass :
-		Super::GetDefaultPawnClassForController_Implementation(InController);
 }
