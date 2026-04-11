@@ -94,3 +94,5 @@ Content/ParagonKhaimera/** filter=lfs merge=lfs -text
 Content/ParagonMorigesh/** filter=lfs merge=lfs -text
 
 Content/Werewolf/** filter=lfs merge=lfs -text
+
+Content/Maps/** filter=lfs merge=lfs -text
